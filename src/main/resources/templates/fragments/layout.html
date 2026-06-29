@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="nav" class="nav">
+    <div class="nav-inner">
+        <a href="/" class="brand">
+            <span class="eq"><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span></span>
+            NOCTURNE
+        </a>
+        <ul class="nav-links">
+            <li><a href="/" th:classappend="${activePage == 'explore'} ? 'active'">Explore</a></li>
+            <li><a href="/events" th:classappend="${activePage == 'events'} ? 'active'">Events</a></li>
+            <li><a href="/post-vibe" th:classappend="${activePage == 'post-vibe'} ? 'active'">Post a Vibe</a></li>
+            <li><a href="/go-live" th:classappend="${activePage == 'go-live'} ? 'active'">Go Live</a></li>
+        </ul>
+        <div class="nav-actions">
+            <th:block th:if="${currentUser != null}">
+                <a href="/profile" class="btn btn-ghost btn-sm" th:text="${currentUser.name}">Profile</a>
+                <a href="/logout" class="btn btn-primary btn-sm">Log out</a>
+            </th:block>
+            <th:block th:if="${currentUser == null}">
+                <a href="/login" class="btn btn-ghost btn-sm">Log in</a>
+                <a href="/register" class="btn btn-primary btn-sm">Sign up</a>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="footer" class="footer">
+    <div class="container footer-inner">
+        <span>&copy; 2026 Nocturne. Find tonight's pulse.</span>
+        <span>Built with Spring Boot &amp; Thymeleaf</span>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a vibe — Nocturne</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main>
+    <section class="section container" style="max-width: 560px;">
+        <h1 style="font-size: 28px;">Post a vibe</h1>
+        <p style="margin-top: 8px;">Tell the city what it's actually like in there right now.</p>
+
+        <div class="card" style="margin-top: 24px;">
+            <form th:action="@{/post-vibe}" method="post">
+                <div class="field">
+                    <label for="venueName">Where are you?</label>
+                    <input type="text" id="venueName" name="venueName" placeholder="e.g. Static Garden" required>
+                </div>
+                <div class="field">
+                    <label for="caption">What's the vibe?</label>
+                    <textarea id="caption" name="caption" rows="3" placeholder="Floor's packed, DJ just dropped something unreal..." required></textarea>
+                </div>
+                <div class="field">
+                    <label for="heatLevel">Heat level</label>
+                    <div class="range-row">
+                        <input type="range" id="heatLevel" name="heatLevel" min="1" max="5" value="3" style="flex: 1;">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Post to the feed</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

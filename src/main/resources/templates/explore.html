@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nocturne — Explore tonight's pulse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main>
+    <section class="hero container">
+        <div class="hero-eyebrow">
+            <span class="eq"><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span></span>
+            Live across the city right now
+        </div>
+        <h1>Tonight's pulse, before<br>you even leave the house.</h1>
+        <p class="lede">Nocturne shows you which floors are actually moving right now — real check-ins from people on the ground, plus every event worth showing up for.</p>
+        <div class="hero-actions">
+            <a href="/events" class="btn btn-primary">Browse tonight's events</a>
+            <a href="/post-vibe" class="btn btn-ghost">Post a vibe</a>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head">
+            <h2>Hottest floors right now</h2>
+            <a href="/events">See all events &rarr;</a>
+        </div>
+        <div class="grid">
+            <a th:each="venue : ${topVenues}" th:href="@{/venues/{id}(id=${venue.id})}" class="card">
+                <div class="swatch" th:class="'swatch ' + ${venue.accentClass}"></div>
+                <h3 th:text="${venue.name}">Venue name</h3>
+                <p th:text="${venue.neighborhood}">Neighborhood</p>
+                <div class="meta-row">
+                    <span class="vibe-meter">
+                        <span class="vibe-meter-track">
+                            <span class="vibe-meter-fill" th:style="'width: ' + ${venue.vibeScore} + '%'"></span>
+                        </span>
+                        <span th:text="${venue.vibeScore} + '% lit'">82% lit</span>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="grid-2" style="display: grid;">
+            <div>
+                <div class="section-head">
+                    <h2>Coming up</h2>
+                    <a href="/events">Full calendar &rarr;</a>
+                </div>
+                <div class="card" style="padding: 0;">
+                    <a th:each="event, iter : ${upcomingEvents}" th:href="@{/events/{id}(id=${event.id})}"
+                       th:style="${!iter.last} ? 'display:block;padding:16px 20px;border-bottom:1px solid var(--border);' : 'display:block;padding:16px 20px;'">
+                        <strong th:text="${event.title}">Event title</strong>
+                        <p th:text="${event.venueName} + ' · ' + ${#temporals.format(event.startsAt, 'EEE, d MMM · h:mm a')}">Venue · time</p>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <div class="section-head">
+                    <h2>Live on the feed</h2>
+                </div>
+                <div class="card">
+                    <div class="feed-item" th:each="vibe : ${recentVibes}">
+                        <div class="feed-avatar" th:class="'feed-avatar ' + ${vibe.accentClass}"></div>
+                        <div class="feed-body">
+                            <div class="feed-author">
+                                <span th:text="${vibe.authorName}">Author</span>
+                                <span class="badge badge-live" th:if="${vibe.live}"><span class="dot"></span> LIVE</span>
+                            </div>
+                            <p class="feed-caption" th:text="${vibe.caption}">Caption text</p>
+                            <p class="feed-time" th:text="${vibe.venueName}">Venue name</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

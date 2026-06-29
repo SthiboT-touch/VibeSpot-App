@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nocturne — Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main>
+    <section class="section container">
+        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+        <div class="section-head">
+            <h2 class="display" style="font-size: 28px;">Tonight &amp; beyond</h2>
+        </div>
+        <div class="grid">
+            <a th:each="event : ${events}" th:href="@{/events/{id}(id=${event.id})}" class="card">
+                <div class="swatch" th:class="'swatch ' + ${event.accentClass}"></div>
+                <span class="badge" th:text="${event.category}">Category</span>
+                <h3 style="margin-top: 12px;" th:text="${event.title}">Event title</h3>
+                <p th:text="${event.venueName}">Venue</p>
+                <div class="meta-row">
+                    <span th:text="${#temporals.format(event.startsAt, 'EEE, d MMM · h:mm a')}">Date</span>
+                    <span>&middot;</span>
+                    <span th:text="${event.priceLabel}">Price</span>
+                </div>
+                <div class="tag-row">
+                    <span class="tag" th:each="tag : ${event.tags}" th:text="${tag}">tag</span>
+                </div>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

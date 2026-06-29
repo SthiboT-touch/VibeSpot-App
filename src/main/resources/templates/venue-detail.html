@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${venue.name} + ' — Nocturne'">Venue — Nocturne</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main>
+    <section class="section container" style="max-width: 760px;">
+        <div class="detail-hero" th:class="'detail-hero ' + ${venue.accentClass}"></div>
+
+        <span class="badge" th:text="${venue.openNow} ? 'Open now' : 'Closed'">Status</span>
+        <h1 style="margin-top: 14px;" th:text="${venue.name}">Venue name</h1>
+        <p th:text="${venue.neighborhood} + ' · ' + ${venue.address}">Neighborhood · address</p>
+
+        <div class="meta-row" style="margin-top: 14px;">
+            <span class="vibe-meter">
+                <span class="vibe-meter-track">
+                    <span class="vibe-meter-fill" th:style="'width: ' + ${venue.vibeScore} + '%'"></span>
+                </span>
+                <span th:text="${venue.vibeScore} + '% lit right now'">Vibe score</span>
+            </span>
+        </div>
+
+        <p style="margin-top: 20px; color: var(--text);" th:text="${venue.description}">Description</p>
+
+        <div class="tag-row">
+            <span class="tag" th:each="genre : ${venue.genres}" th:text="${genre}">genre</span>
+            <span class="tag" th:text="${venue.capacityLabel}">capacity</span>
+        </div>
+
+        <div class="section-head" style="margin-top: 36px;">
+            <h2>Events here</h2>
+        </div>
+        <div class="card" style="padding: 0;" th:if="${!venueEvents.isEmpty()}">
+            <a th:each="event, iter : ${venueEvents}" th:href="@{/events/{id}(id=${event.id})}"
+               style="display:block;padding:16px 20px;"
+               th:style="${!iter.last} ? 'display:block;padding:16px 20px;border-bottom:1px solid var(--border);' : 'display:block;padding:16px 20px;'">
+                <strong th:text="${event.title}">Event title</strong>
+                <p th:text="${#temporals.format(event.startsAt, 'EEE, d MMM · h:mm a')}">Date</p>
+            </a>
+        </div>
+        <p th:if="${venueEvents.isEmpty()}">Nothing on the calendar here yet — check back soon.</p>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

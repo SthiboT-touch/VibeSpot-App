@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your profile — Nocturne</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main>
+    <section class="section container" style="max-width: 560px;">
+        <h1 th:text="${currentUser.name}">Name</h1>
+        <p th:text="${currentUser.email}">email@example.com</p>
+
+        <div class="card" style="margin-top: 24px;">
+            <form th:action="@{/profile}" method="post">
+                <div class="field">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" name="bio" rows="3" th:text="${currentUser.bio}"></textarea>
+                </div>
+                <div class="field">
+                    <label for="favoriteGenre">Favorite genre</label>
+                    <select id="favoriteGenre" name="favoriteGenre">
+                        <option th:each="genre : ${ {'House','Techno','Disco','Drum & Bass','Afrobeat','Lounge'} }"
+                                th:value="${genre}" th:text="${genre}"
+                                th:selected="${genre == currentUser.favoriteGenre}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+        </div>
+
+        <div class="meta-row" style="margin-top: 18px;">
+            <span th:text="'Member since ' + ${#temporals.format(currentUser.joinedOn, 'MMMM yyyy')}">Joined</span>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

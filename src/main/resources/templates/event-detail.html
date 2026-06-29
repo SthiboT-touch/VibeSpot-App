@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${event.title} + ' — Nocturne'">Event — Nocturne</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main>
+    <section class="section container" style="max-width: 760px;">
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+        <div class="detail-hero" th:class="'detail-hero ' + ${event.accentClass}"></div>
+
+        <span class="badge" th:text="${event.category}">Category</span>
+        <h1 style="margin-top: 14px;" th:text="${event.title}">Event title</h1>
+
+        <div class="meta-row" style="margin-top: 14px;">
+            <span th:text="${#temporals.format(event.startsAt, 'EEEE, d MMMM · h:mm a')}">Date</span>
+            <span>&middot;</span>
+            <span th:text="${event.priceLabel}">Price</span>
+        </div>
+
+        <p style="margin-top: 20px; color: var(--text);" th:text="${event.description}">Description</p>
+
+        <div class="tag-row">
+            <span class="tag" th:each="tag : ${event.tags}" th:text="${tag}">tag</span>
+        </div>
+
+        <div class="card" style="margin-top: 28px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <strong th:text="${event.venueName}">Venue</strong>
+                <p>Hosted at this venue</p>
+            </div>
+            <a th:href="@{/venues/{id}(id=${event.venueId})}" class="btn btn-ghost btn-sm">View venue</a>
+        </div>
+
+        <form th:action="@{/events/{id}/interested(id=${event.id})}" method="post" style="margin-top: 24px;">
+            <button type="submit" class="btn btn-primary">
+                I'm interested &mdash; <span th:text="${event.interestedCount}">0</span> going
+            </button>
+        </form>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>
