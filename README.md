@@ -1,4 +1,5 @@
-# Nocturne
+# VibeSpot-App
+
 
 A nightlife discovery app: browse tonight's events, check out venues by how
 "lit" they currently are, post a live vibe check-in, and manage a profile.
